@@ -1,0 +1,25 @@
+{
+  "name": "typo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ing. Juraj Mäsiar",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "easy-zip": "^0.0.4",
+    "easy-zip2": "^2.0.0",
+    "esm": "^3.2.25",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.0.1",
+    "path": "^0.12.7",
+    "readdir": "0.0.13",
+    "replace-in-file": "^4.1.0",
+    "rollup": "^1.12.4",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "watch": "^1.0.2",
+    "zip-dir": "^1.0.2"
+  }
+}

@@ -1,0 +1,13 @@
+/.idea
+/.idea_modules
+*.iml
+/node_modules
+**/node_modules/
+/npm-debug.log
+/chrome_dist
+/firefox_dist
+/chrome_dev
+/firefox_dev
+/dist
+**/dist/
+

@@ -1,0 +1,42 @@
+{
+
+  "manifest_version": 2,
+
+  "version": "1.0",
+
+  "name": "Typo",
+  "description": "Typo is a typing game that will test your typing skills.",
+
+  "icons": {
+    "48": "48.png",
+    "128": "128.png"
+  },
+
+  "background": {
+    "page": "background_t.html"
+  },
+
+  "browser_action": {
+    "default_icon": {
+      "128": "128.png"
+    }
+  },
+
+  "permissions": [
+    "*://pi.fastaddons.com/*",
+    "storage",
+    "activeTab"
+  ],
+
+  "web_accessible_resources": [
+    "128.png"
+  ],
+
+  "applications": {
+    "gecko": {
+      "id": "juraj.masiar@gmail.com_Typo",
+      "strict_min_version": "60.0"
+    }
+  }
+
+}
