@@ -1,5 +1,6 @@
 import {buildElement, replaceChildNodes, setStyle} from "../utils/modules/html.js";
 import {styleBlock} from "../modules/common.js";
+import {insertHtml} from "./html_appender.js";
 
 
 export const ListController = (() => {
@@ -29,7 +30,7 @@ export const ListController = (() => {
       box-shadow: 4px 5px 4px 0px #181818;
     `)
     });
-    document.body.appendChild(box);
+    insertHtml(box);
     return box;
   }
 

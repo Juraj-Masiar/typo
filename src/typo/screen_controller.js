@@ -3,6 +3,7 @@ import {ListController} from "./list_controller.js";
 import {buildHtml, shuffleArray, styleBlock, styleNode} from "../modules/common.js";
 import {InputController} from "./input_controller.js";
 import {PageTextExtractor} from "./page_text_extractor.js";
+import {insertHtml} from "./html_appender.js";
 
 
 export const ScreenController = (() => {
@@ -49,7 +50,7 @@ export const ScreenController = (() => {
       ]]
     ]
     ]);
-    document.body.appendChild(_container);
+    insertHtml(_container);
   }
 
 

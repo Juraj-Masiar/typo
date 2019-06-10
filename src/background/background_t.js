@@ -2,12 +2,6 @@ import {WS} from "./web_socket.js";
 import {timeoutPromise} from "../utils/modules/utils_module.js";
 
 async function RUN_APP() {
-  // todo: remove in production:
-  // await browser.tabs.reload();    // this will reload current page
-  // const tabs = await browser.tabs.query({});
-  // const wikiTab = tabs.find(t => t.url.includes('wikipedia.org'));
-  // if (!wikiTab) await browser.tabs.create({url: 'https://www.wikipedia.org/'});
-
   await WS.init();
 }
 

@@ -1,5 +1,6 @@
 import {buildElement, replaceChildNodes} from "../utils/modules/html.js";
 import {buildHtml, styleBlock} from "../modules/common.js";
+import {insertHtml} from "./html_appender.js";
 
 
 export const MultiPlayerController = (() => {
@@ -27,7 +28,7 @@ export const MultiPlayerController = (() => {
       box-shadow: 4px 5px 4px 0px #181818;
     `)
     });
-    document.body.appendChild(box);
+    insertHtml(box);
     return box;
   }
 

@@ -3,7 +3,7 @@ import {MultiPlayerController} from "./multi_player_controller.js";
 import {WordsController} from "./words_controller.js";
 import {InputController} from "./input_controller.js";
 import {ListController} from "./list_controller.js";
-import {setStyle} from "../utils/modules/html.js";
+import {removeNode, setStyle} from "../utils/modules/html.js";
 import {StatisticsController} from "./statistics_controller.js";
 
 console.log('hello from typo.js');
@@ -20,6 +20,9 @@ browser.runtime.onMessage.addListener((data, sender) => {
 
 
 async function RUN_TYPO() {
+  // todo: this is wrong, by the time this is executed, there are already things inserted there!
+  if (window._typo_nodes.length > 0) return closeSelf();    // if we execute this script again (by pressing toolbar icon), we will toggle all elements
+
   console.log('hello from typo.js script');
   document.body.style.background = 'lightgray';
   WordsController.addWordCreatedEventListener(onWordStart);
@@ -103,5 +106,10 @@ function onEscHandler(event) {
   }
 }
 
+function closeSelf() {
+  console.log('closing');
+  window._typo_nodes.forEach(removeNode);
+  window._typo_nodes.length = 0;
+}
 
 RUN_TYPO();

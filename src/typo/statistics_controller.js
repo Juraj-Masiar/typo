@@ -1,5 +1,6 @@
 import {buildElement} from "../utils/modules/html.js";
 import {styleBlock} from "../modules/common.js";
+import {insertHtml} from "./html_appender.js";
 
 
 export const StatisticsController = (() => {
@@ -49,7 +50,7 @@ export const StatisticsController = (() => {
       _wrongWordNode,
     ]),
     ]);
-    document.body.appendChild(_node);
+    insertHtml(_node);
   }
 
   function reset() {

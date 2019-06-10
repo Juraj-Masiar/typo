@@ -1,6 +1,7 @@
 import {buildElement} from "../utils/modules/html.js";
 import {removeFromArrayPredicate, styleNode} from "../modules/common.js";
 import {NodeAnimator} from "./node_animator.js";
+import {insertHtml} from "./html_appender.js";
 
 export const WordsController = (() => {
   const _fallingWords = [];   // contains objects with "animation", "node" and "text" properties
@@ -36,7 +37,7 @@ export const WordsController = (() => {
       // extract node
       const wordNode = wordsNodes[i];
       // add it to the page body
-      document.body.parentElement.appendChild(wordNode);
+      insertHtml(wordNode);
       // start the animation
       const startX = (window.innerWidth / 2);
       const startY = (0);
@@ -52,7 +53,7 @@ export const WordsController = (() => {
         ;`),
         textContent: ''
       });
-      document.body.parentElement.appendChild(highlightNode);
+      insertHtml(highlightNode);
 
       const animationH = NodeAnimator.fromUpToDown(highlightNode, startX, startY, endY, _animationDuration || animationDuration);
       const animation = NodeAnimator.fromUpToDown(wordNode, startX, startY, endY, _animationDuration || animationDuration);

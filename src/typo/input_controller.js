@@ -1,5 +1,6 @@
 import {buildElement} from "../utils/modules/html.js";
 import {styleNode} from "../modules/common.js";
+import {insertHtml} from "./html_appender.js";
 
 export const InputController = (() => {
   const _listeners = [];
@@ -19,8 +20,8 @@ export const InputController = (() => {
   _node.oninput = inputChangeHandler;
   // _node.onkeydown = onKeyDown;
   window.addEventListener('keydown', onKeyDown);
-  document.body.appendChild(_node);
-  document.body.appendChild(_fakeNode);
+  insertHtml(_node);
+  insertHtml(_fakeNode);
 
   let _self;
   return (_self = {
