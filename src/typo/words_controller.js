@@ -1,5 +1,6 @@
 import {buildElement} from "../utils/modules/html.js";
-
+import {removeFromArrayPredicate, styleNode} from "../modules/common.js";
+import {NodeAnimator} from "./node_animator.js";
 
 export const WordsController = (() => {
   const _fallingWords = [];   // contains objects with "animation", "node" and "text" properties

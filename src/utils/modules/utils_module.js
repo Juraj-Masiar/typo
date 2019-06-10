@@ -162,6 +162,3 @@ export const NumberGenerator = (() => {
   return () => ++i;
 })();
 
-
-
-export const requestAnimationFramePromise = () => new Promise(resolve => window.requestAnimationFrame(resolve));

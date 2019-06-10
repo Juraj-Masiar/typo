@@ -9,10 +9,10 @@ import {
   NumberGenerator,
   promiseFactory,
   px,
-  requestAnimationFramePromise,
   timeoutPromise
 } from "../utils/modules/utils_module.js";
 import {setStyle} from "../utils/modules/html.js";
+import {requestAnimationFramePromise} from "../modules/common.js";
 
 export const NodeAnimator = (() => {
 

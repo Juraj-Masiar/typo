@@ -13,7 +13,7 @@
   },
 
   "background": {
-    "page": "background_t.html"
+    "page": "background/background_t.html"
   },
 
   "browser_action": {

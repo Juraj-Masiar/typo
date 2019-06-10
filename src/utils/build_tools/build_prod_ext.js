@@ -5,14 +5,9 @@ const readDir = require('readdir');
 const path = require('path');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
-const postcss = require('postcss');
-const conditionals = require('postcss-conditionals');
 const cpx = require("cpx");
 const {performance} = require('perf_hooks');
-const uglifyEs = require('uglify-es');
-const CleanCSS = require('clean-css');
 const replace = require('replace-in-file');
-const { inlineSource } = require('inline-source');
 const {EasyZip} = require('easy-zip2');
 const ZipDir = require('zip-dir');
 

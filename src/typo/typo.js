@@ -4,7 +4,9 @@ import {WordsController} from "./words_controller.js";
 import {InputController} from "./input_controller.js";
 import {ListController} from "./list_controller.js";
 import {setStyle} from "../utils/modules/html.js";
+import {StatisticsController} from "./statistics_controller.js";
 
+console.log('hello from typo.js');
 
 browser.runtime.onMessage.addListener((data, sender) => {
   console.log('received message', data);

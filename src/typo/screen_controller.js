@@ -1,5 +1,8 @@
 import {WordsController} from "./words_controller.js";
 import {ListController} from "./list_controller.js";
+import {buildHtml, shuffleArray, styleBlock, styleNode} from "../modules/common.js";
+import {InputController} from "./input_controller.js";
+import {PageTextExtractor} from "./page_text_extractor.js";
 
 
 export const ScreenController = (() => {

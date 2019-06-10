@@ -1,4 +1,5 @@
 import {buildElement} from "../utils/modules/html.js";
+import {styleNode} from "../modules/common.js";
 
 export const InputController = (() => {
   const _listeners = [];

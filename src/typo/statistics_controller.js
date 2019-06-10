@@ -1,4 +1,5 @@
 import {buildElement} from "../utils/modules/html.js";
+import {styleBlock} from "../modules/common.js";
 
 
 export const StatisticsController = (() => {

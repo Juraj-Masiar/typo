@@ -10,7 +10,7 @@ const path = require('path');
 const {performance} = require('perf_hooks');
 
 export async function configBuild({inputJsFiles, contentScriptFiles}) {
-  translateMessages({upgradeForeign: IS_PROD});    // currently only during init
+  // translateMessages({upgradeForeign: IS_PROD});    // currently only during init
 
   const runBuild = () => startBuild({inputJsFiles, contentScriptFiles});
   if (WATCH_CHANGES) registerWatch(runBuild, ['src', 'firefox', 'chrome', 'locales']);

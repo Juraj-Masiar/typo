@@ -1,4 +1,5 @@
 import {buildElement, replaceChildNodes} from "../utils/modules/html.js";
+import {buildHtml, styleBlock} from "../modules/common.js";
 
 
 export const MultiPlayerController = (() => {

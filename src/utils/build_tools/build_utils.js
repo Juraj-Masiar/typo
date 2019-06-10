@@ -6,12 +6,8 @@ const readDir = require('readdir');
 const path = require('path');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
-const postcss = require('postcss');
-const conditionals = require('postcss-conditionals');
 const cpx = require("cpx");
 const {performance} = require('perf_hooks');
-const uglifyEs = require('uglify-es');
-const CleanCSS = require('clean-css');
 const rollup = require('rollup');
 
 export const params = process.argv.slice(2);
@@ -60,18 +56,5 @@ export function writeFile(filePath, code) {
   fs.writeFileSync(filePath, code);
 }
 
-export function buildFileName(fileName, directoryPath) {
-  return path.join(directoryPath, path.dirname(fileName), path.basename(fileName, path.extname(fileName))) + path.extname(fileName);
-}
 
-export function buildJavaScriptFile(fileNames, devPath, prodPath, UGLIFY_OPTIONS) {
-  console.log(`building file: ${fileNames}`);
-  if (!Array.isArray(fileNames)) fileNames = [fileNames];
-  const filePaths = fileNames.map(fileName => path.join(devPath, fileName));
-  const sourceCode = filePaths.map(filePath => fs.readFileSync(filePath, 'utf8')).join('\n');
-  const minifyResult = uglifyEs.minify(sourceCode, UGLIFY_OPTIONS);
-  if (minifyResult.error) console.error(minifyResult.error);
-  const newName = buildFileName(fileNames[fileNames.length - 1], prodPath);   // last file name is used as target
-  writeFile(newName, minifyResult.code);
-}
 
