@@ -10,7 +10,6 @@ export const wsServer = new WebSocketServer({
 
 const _connectedUsers = new Map();
 
-// WebSocket server
 wsServer.on('request', request => {
   const connection = request.accept(null, request.origin);
   console.log('websocket opened');

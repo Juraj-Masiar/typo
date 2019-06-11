@@ -4,6 +4,7 @@ import {buildHtml, shuffleArray, styleBlock, styleNode} from "../modules/common.
 import {InputController} from "./input_controller.js";
 import {PageTextExtractor} from "./page_text_extractor.js";
 import {insertHtml} from "./html_appender.js";
+import {byId} from "../utils/modules/html.js";
 
 
 export const ScreenController = (() => {
@@ -46,7 +47,7 @@ export const ScreenController = (() => {
         ['h2', {style: styleBlock('font-size: 20px; margin: 10px 0;'), textContent: 'Options:'}],
         createTextCheckbox('lower_case', 'Lower case only', false),
         createTextCheckbox('no_diacritics', 'Without diacritics', false),
-        createTextCheckbox('shuffle', 'Shuffle words', true),
+        createTextCheckbox('shuffle', 'Shuffle words', false),
       ]]
     ]
     ]);
@@ -70,9 +71,9 @@ export const ScreenController = (() => {
 
     const noChangedFn = array => array;
     const modificationsFunctions = [
-      true ? filterDiacritics : noChangedFn,
-      true ? makeLowerCase : noChangedFn,
-      true ? makeRandom : noChangedFn,
+      byId('lower_case').checked ? filterDiacritics : noChangedFn,
+      byId('no_diacritics').checked ? makeLowerCase : noChangedFn,
+      byId('shuffle').checked ? makeRandom : noChangedFn,
     ];
 
     const words = modificationsFunctions.reduce((acc, fn) => fn(acc), originalWords);

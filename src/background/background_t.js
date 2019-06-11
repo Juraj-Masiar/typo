@@ -3,6 +3,10 @@ import {timeoutPromise} from "../utils/modules/utils_module.js";
 
 async function RUN_APP() {
   await WS.init();
+  if ($IS_DEV) {
+    browser.tabs.create({url: '/test_page.html'});
+
+  }
 }
 
 

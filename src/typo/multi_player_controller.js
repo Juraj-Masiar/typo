@@ -11,29 +11,32 @@ export const MultiPlayerController = (() => {
 
   function init() {
 
-    const box = buildElement('players', {
+    const box = buildHtml(['multiplayer', {
       style: styleBlock(`
-      position: fixed; 
-      top: 90px; 
-      height: calc(100% - 90px - 50px);
-      overflow-y: auto;
-      left: 0; 
-      margin: 10px; 
-      padding: 10px;
-      font-size: 20px; 
-      background: white; 
-      border: 1px solid black;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 4px 5px 4px 0px #181818;
-    `)
-    });
+        position: fixed; 
+        top: 90px; 
+        height: calc(100% - 90px - 50px);
+        overflow-y: auto;
+        left: 0; 
+        margin: 10px; 
+        padding: 10px;
+        font-size: 20px; 
+        background: white; 
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 4px 5px 4px 0px #181818;
+      `)
+    }, [
+      ['h1', {textContent: 'Players:', style: styleBlock('font-size: 16px; margin-bottom: 10px; border-bottom: 1px solid gray;')}],
+      ['players', {style: styleBlock()}],
+    ]]);
     insertHtml(box);
     return box;
   }
 
   function drawNodes(nodes) {
-    replaceChildNodes(_container, nodes);
+    replaceChildNodes(_container.querySelector('players'), nodes);
   }
 
   function update(users) {
