@@ -1,6 +1,7 @@
 import {buildElement, replaceChildNodes} from "../utils/modules/html.js";
-import {buildHtml, styleBlock} from "../modules/common.js";
+import {buildHtml, styleBlock, styleNode, styleTd, styleTr} from "../modules/common.js";
 import {insertHtml} from "./html_appender.js";
+import {oc} from "../utils/modules/utils_module.js";
 
 
 export const MultiPlayerController = (() => {
@@ -29,25 +30,35 @@ export const MultiPlayerController = (() => {
       `)
     }, [
       ['h1', {textContent: 'Players:', style: styleBlock('font-size: 16px; margin-bottom: 10px; border-bottom: 1px solid gray;')}],
-      ['players', {style: styleBlock()}],
+      ['table', {style: styleNode('width: 100%;')}, ['tbody', {style: styleNode()}]],
     ]]);
     insertHtml(box);
     return box;
   }
 
   function drawNodes(nodes) {
-    replaceChildNodes(_container.querySelector('players'), nodes);
+    replaceChildNodes(_container.querySelector('tbody'), [buildHtml(['tr', {style: styleTr()}, [
+      ['th', {textContent: 'Name', style: styleTd(thStyle + 'font-weight: bold;')}],
+      ['th', {textContent: 'OK words', style: styleTd(thStyle + 'font-weight: bold;')}],
+      ['th', {textContent: 'Mistakes', style: styleTd(thStyle + 'font-weight: bold;')}],
+    ]]), ...nodes]);
   }
 
   function update(users) {
-    const nodes = users.map(user => buildHtml([
-      'div', {style: styleBlock('display: flex;')}, [
-        ['label', {textContent: user.user_name}],
-        // todo: print more info here?
-      ]
-    ]));
+    const nodes = users.map(user => buildHtml(
+      ['tr', {style: styleTr()}, [
+        ['th', {textContent: user.user_name, style: styleTd(thStyle)}],
+        ['td', {textContent: oc(() => user.data.statistics.okWord, ''), style: styleTd(thStyle)}],
+        ['td', {textContent: oc(() => user.data.statistics.wrongKey, ''), style: styleTd(thStyle)}],
+      ]]
+    ));
     drawNodes(nodes)
   }
 
 })();
 
+const thStyle = `
+padding: 0 3px;
+border-right: 1px solid gray;
+border-bottom: 1px solid gray;
+`;
