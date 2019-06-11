@@ -22,7 +22,6 @@ browser.runtime.onMessage.addListener((data, sender) => {
 
 async function RUN_TYPO() {
   console.log('initialization', window._typo_nodes);
-  // todo: this is wrong, by the time this is executed, there are already things inserted there!
   if (window._typo_nodes.length > 0) return closeSelf();    // if we execute this script again (by pressing toolbar icon), we will toggle all elements
   await DOMContentLoadedPromise;
   WordsController.addWordCreatedEventListener(onWordStart);

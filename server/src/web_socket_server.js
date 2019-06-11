@@ -1,41 +1,14 @@
 'use strict';
 
+import {server} from "./http_server.js";
+
 const WebSocketServer = require('websocket').server;
-const http = require('http');
 
-
-// --------------------- HTTP server --------------------- //
-
-const server = http.createServer((request, response) => {
-  // process HTTP request. Since we're writing just WebSockets
-  // server we don't have to implement anything.
-  console.log(request.method, request.url);
-
-  switch (request.url) {
-    case '/api/level_1':
-      replyJSON({
-        name: 'level_1',
-        words: ['javascript', 'is', 'fun'],
-      });
-      break;
-  }
-
-  function replyJSON(data) {
-    response.writeHead(200, {'Content-Type': 'application/json'});
-    response.write(JSON.stringify(data));
-    response.end();
-  }
-});
-server.listen(50001, function() { });
-
-
-// --------------------- WebSocket server --------------------- //
-
-const wsServer = new WebSocketServer({
+export const wsServer = new WebSocketServer({
   httpServer: server
 });
 
-const connectedUsers = new Map();
+const _connectedUsers = new Map();
 
 // WebSocket server
 wsServer.on('request', request => {
@@ -51,7 +24,7 @@ wsServer.on('request', request => {
       const {type, user_name, data, uuid, version} = JSON.parse(clientData);
       console.log('message:', clientData);
 
-      connectedUsers.set(uuid, {
+      _connectedUsers.set(uuid, {
         connection,
         user_name,
         data,
@@ -61,15 +34,19 @@ wsServer.on('request', request => {
     }
   });
 
-  connection.on('close', connection => {
+  connection.on('close', reasonCode => {
     // close user connection
     console.log('websocket closed');
+    const [uuid] = [..._connectedUsers.entries()]
+      .find(([uuid, value]) => value.connection === connection) || [];
+    _connectedUsers.delete(uuid);
+    sendToAll();
   });
 });
 
 function sendToAll() {
-  const usersInfo = [...connectedUsers.values()].map(({user_name, data}) => ({user_name, data}));
-  connectedUsers.forEach(({connection, user_name, data}, uuid) => {
+  const usersInfo = [..._connectedUsers.values()].map(({user_name, data}) => ({user_name, data}));
+  _connectedUsers.forEach(({connection, user_name, data}, uuid) => {
     connection.sendUTF(JSON.stringify({ type:'users', data: usersInfo }));
   })
 }

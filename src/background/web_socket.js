@@ -1,8 +1,8 @@
 import {getTime, getUUID, noop} from "../utils/modules/utils_module.js";
 
 
-const WS_URL = 'ws://pi.fastaddons.com:50001/ws/global';
-// const WS_URL = 'ws://localhost:50001/ws/global';
+// const WS_URL = 'ws://pi.fastaddons.com:50001/ws/global';
+const WS_URL = 'ws://localhost:50001/ws/global';
 const CLIENT_UUID = getUUID();
 
 let _connection = {readyState: 3, close: noop, send: noop};   // init with dummy
