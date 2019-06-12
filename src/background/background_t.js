@@ -14,9 +14,9 @@ async function RUN_APP() {
 browser.runtime.onMessage.addListener((data, sender) => {
   switch (data.type) {
     case 'fetch_level': return LevelDownload.getLevel(data.level);
-    case 'notify': return WS.send('notify', data.data);
-    case 'user_name': return WS.send('name', data.data);
-    case 'statistics': return WS.send('score', data.data);
+    case 'notify': return WS.send('notify', data);
+    case 'user_name': return WS.send('name', data);
+    case 'statistics': return WS.send('score', data);
   }
 });
 

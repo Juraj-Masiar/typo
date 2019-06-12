@@ -82,8 +82,10 @@ function onWordStart({animation, node, text, highlightNode}) {
   animation.finished.then(() => {
     StatisticsController.wrongWord();
     ListController.highlightWord(text, 'red');
-  });
-  browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
+  })
+    .finally(() => {
+      browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
+    });
   console.log(StatisticsController.getStatistics());
   const {okWord, wrongWord} = StatisticsController.getStatistics();
   WordsController.setAnimationDuration(Math.max(3000, 9000 - 500 * (wrongWord + okWord)));

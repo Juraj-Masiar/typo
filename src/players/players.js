@@ -38,6 +38,8 @@ function update(users) {
   const nodes = users.map(user => buildHtml(
     ['tr', {}, [
       ['td', {textContent: user.user_name}],
+      ['td', {textContent: oc(() => user.data.statistics.score, '')}],
+      ['td', {textContent: oc(() => user.data.statistics.time, '')}],
       ['td', {textContent: oc(() => user.data.statistics.okWord, '')}],
       ['td', {textContent: oc(() => user.data.statistics.wrongKey, '')}],
     ]]

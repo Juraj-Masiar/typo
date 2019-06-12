@@ -33,7 +33,7 @@ async function send(type, data) {
 async function onMessage(e) {
   const data = JSON.parse(e.data);
   console.log('WS: message received', data);
-
+  // todo: this is very inefficient, wee need to keep track of tabs with app running
   (await browser.tabs.query({})).forEach(tab => browser.tabs.sendMessage(tab.id, {type: 'websocket', data: data}).catch(noop));
 
   // browser.runtime.sendMessage({type: 'websocket', data: data})

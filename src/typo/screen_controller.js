@@ -5,6 +5,7 @@ import {InputController} from "./input_controller.js";
 import {PageTextExtractor} from "./page_text_extractor.js";
 import {insertHtml} from "./html_appender.js";
 import {byId} from "../utils/modules/html.js";
+import {StatisticsController} from "./statistics_controller.js";
 
 
 export const ScreenController = (() => {
@@ -19,6 +20,7 @@ export const ScreenController = (() => {
 
   async function initialize() {
     const {user_name: userName = ''} = await browser.storage.local.get('user_name');
+    browser.runtime.sendMessage({type: 'user_name', userName});
 
     _container = buildHtml(['welcome-screen', {
       style: styleBlock(`
@@ -37,7 +39,7 @@ export const ScreenController = (() => {
       align-items: center;
     `)
     }, [
-      ['h1', {style: styleBlock('font-size: 42px; margin: 10px 0;'), textContent: 'Welcome to Typo!'}],
+      ['h1', {style: styleBlock('font-size: 42px; margin: 10px 0; font-family: Courier New,Verdana, Helvetica, sans-serif;'), textContent: 'Welcome to Typo!'}],
       ['button', {style: getButtonStyle(), textContent: 'Start game with current page', handlers: {onclick: startGame}}],
       ['button', {style: getButtonStyle(), textContent: 'Level 1 - short and simple', handlers: {onclick: () => startGame({level: 1})}}],
       ['button', {style: getButtonStyle(), textContent: 'Level 2 - long and simple', handlers: {onclick: () => startGame({level: 2})}}],
@@ -59,6 +61,7 @@ export const ScreenController = (() => {
 
 
   async function startGame({level} = {}) {
+    browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
     InputController.stealFocus();
     console.log('starting game');
     let words = [];
