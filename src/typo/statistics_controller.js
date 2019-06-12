@@ -1,6 +1,7 @@
 import {buildElement} from "../utils/modules/html.js";
 import {styleBlock} from "../modules/common.js";
 import {insertHtml} from "./html_appender.js";
+import {getTime} from "../utils/modules/utils_module.js";
 
 
 export const StatisticsController = (() => {
@@ -8,6 +9,9 @@ export const StatisticsController = (() => {
   let _okWord = 0;
   let _wrongWord = 0;
   let _wrongKey = 0;
+  let _level = '';
+  let _startTime = 0;
+  let _endTime = 0;
 
   const _okKeyNode = buildElement('div', {style: styleBlock()});
   const _wrongKeyNode = buildElement('div', {style: styleBlock()});
@@ -22,6 +26,7 @@ export const StatisticsController = (() => {
     wrongKey: () => { ++_wrongKey; draw(); },
     okWord: () => { ++_okWord; draw(); },
     wrongWord: () => { ++_wrongWord; draw(); },
+    stopLevel: () => _endTime = getTime(),
     getStatistics: getStatistics,
   };
 
@@ -54,20 +59,27 @@ export const StatisticsController = (() => {
     insertHtml(_node);
   }
 
-  function reset() {
+  function reset({level} = {}) {
     _okKey = 0;
     _okWord = 0;
     _wrongKey = 0;
     _wrongWord = 0;
+    _level = level || '';
+    _startTime = getTime();
+    _endTime = 0;
     draw();
   }
 
   function getStatistics() {
+    const timeDelta = ((_endTime || getTime()) - _startTime) / 1000;
     return {
       okKey: _okKey,
       okWord: _okWord,
       wrongKey: _wrongKey,
       wrongWord: _wrongWord,
+      level: _level,
+      time: timeDelta.toFixed(1),
+      score: (_okKey - _wrongKey - 10 * _wrongWord - timeDelta).toFixed(1),
     }
   }
 

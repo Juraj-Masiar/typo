@@ -46,7 +46,7 @@ export const ScreenController = (() => {
       ['button', {style: getButtonStyle(), textContent: 'Start game with current page', handlers: {onclick: startGame}}],
       ['button', {style: getButtonStyle(), textContent: 'Level 1 - short and simple', handlers: {onclick: () => startGame({level: 1})}}],
       ['button', {style: getButtonStyle(), textContent: 'Level 2 - long and simple', handlers: {onclick: () => startGame({level: 2})}}],
-      // ['button', {style: getButtonStyle(), textContent: 'Level 3 - long with diacritics', handlers: {onclick: () => startGame({level: 3})}}],
+      ['button', {style: getButtonStyle(), textContent: 'Level 3 - long with diacritics', handlers: {onclick: () => startGame({level: 3})}}],
       ['user_info', {style: styleBlock('width: 100%')}, [
         ['h2', {style: styleBlock('font-size: 20px; margin: 10px 0;'), textContent: 'User:'}],
         ['input', {id: 'user_name', style: styleBlock('font-size: 20px; margin: 10px 0; background: white;'), maxlength: '10', value: userName, placeholder: 'enter your name', handlers: {oninput: onUserNameChange}}],
@@ -65,7 +65,7 @@ export const ScreenController = (() => {
 
   async function startGame({level, userText} = {}) {
     await contDown(3);
-    StatisticsController.reset();
+    StatisticsController.reset({level: level});
     browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
     InputController.stealFocus();
     console.log('starting game');
@@ -108,6 +108,9 @@ export const ScreenController = (() => {
     _container.remove();
 
     await inProgressPromise;
+    StatisticsController.stopLevel();
+    browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
+
     await insertHtml(_container);
   }
 

@@ -5,6 +5,8 @@ html, body {
     overflow: hidden;
     font-size: 12px;
     font-family: Verdana, Helvetica, sans-serif;
+    overflow-x: auto;
+    min-width: 500px;
 }
 
 

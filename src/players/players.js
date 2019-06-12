@@ -1,6 +1,6 @@
 import {buildHtml} from "../modules/common.js";
 import {replaceChildNodes} from "../utils/modules/html.js";
-import {oc} from "../utils/modules/utils_module.js";
+import {oc, orderByMultipleFactory} from "../utils/modules/utils_module.js";
 import {DOMContentLoadedPromise} from "../utils/modules/dom_ready.js";
 
 
@@ -27,21 +27,39 @@ function drawNodes(nodes) {
 
   replaceChildNodes(_container.querySelector('tbody'), [buildHtml(['tr', {}, [
     ['th', {textContent: 'Name'}],
+    ['th', {textContent: 'Level'}],
     ['th', {textContent: 'Score'}],
     ['th', {textContent: 'Time'}],
+    ['th', {textContent: 'OK keys'}],
+    ['th', {textContent: 'mistakes'}],
     ['th', {textContent: 'OK words'}],
-    ['th', {textContent: 'Mistakes'}],
+    ['th', {textContent: 'missed words'}],
   ]]), ...nodes]);
 }
 
 function update(users) {
-  const nodes = users.map(user => buildHtml(
+  const nodes = users
+    .map(user => ({
+      name: user.user_name,
+      level: oc(() => user.data.statistics.level, ''),
+      score: oc(() => user.data.statistics.score, ''),
+      time: oc(() => user.data.statistics.time, ''),
+      okKey: oc(() => user.data.statistics.okKey, ''),
+      wrongKey: oc(() => user.data.statistics.wrongKey, ''),
+      okWord: oc(() => user.data.statistics.okWord, ''),
+      wrongWord: oc(() => user.data.statistics.wrongWord, ''),
+    }))
+    .sort(orderByMultipleFactory([{name: 'score', asc: false}]))
+    .map(data => buildHtml(
     ['tr', {}, [
-      ['td', {textContent: user.user_name}],
-      ['td', {textContent: oc(() => user.data.statistics.score, '')}],
-      ['td', {textContent: oc(() => user.data.statistics.time, '')}],
-      ['td', {textContent: oc(() => user.data.statistics.okWord, '')}],
-      ['td', {textContent: oc(() => user.data.statistics.wrongKey, '')}],
+      ['td', {textContent: data.name}],
+      ['td', {textContent: data.level}],
+      ['td', {textContent: data.score}],
+      ['td', {textContent: data.time}],
+      ['td', {textContent: data.okKey}],
+      ['td', {textContent: data.wrongKey}],
+      ['td', {textContent: data.okWord}],
+      ['td', {textContent: data.wrongWord}],
     ]]
   ));
   drawNodes(nodes)

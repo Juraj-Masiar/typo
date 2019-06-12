@@ -21,7 +21,7 @@ export const WordsController = (() => {
       .map(word => buildElement('span', {
         style: styleNode(`
         background: #FF00FF; 
-        color: white; 
+        color: black; 
         display: inline-block; 
         font-size: 20px; 
         padding: 4px;
