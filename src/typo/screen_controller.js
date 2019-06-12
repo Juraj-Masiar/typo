@@ -7,6 +7,7 @@ import {insertHtml} from "./html_appender.js";
 import {byId} from "../utils/modules/html.js";
 import {StatisticsController} from "./statistics_controller.js";
 import {timeoutPromise} from "../utils/modules/utils_module";
+import {contDown} from "./count_down.js";
 
 
 export const ScreenController = (() => {
@@ -63,8 +64,9 @@ export const ScreenController = (() => {
 
 
   async function startGame({level, userText} = {}) {
+    await contDown(3);
+    StatisticsController.reset();
     browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
-    await timeoutPromise(300);
     InputController.stealFocus();
     console.log('starting game');
     let words = [];

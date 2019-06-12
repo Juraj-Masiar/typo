@@ -1,1 +1,1 @@
-node -r esm build.js firefox watch
+node -r esm build.js firefox chrome watch
