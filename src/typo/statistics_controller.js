@@ -1,5 +1,5 @@
 import {buildElement} from "../utils/modules/html.js";
-import {styleBlock} from "../modules/common.js";
+import {round, styleBlock} from "../modules/common.js";
 import {insertHtml} from "./html_appender.js";
 import {getTime} from "../utils/modules/utils_module.js";
 
@@ -64,7 +64,7 @@ export const StatisticsController = (() => {
     _okWord = 0;
     _wrongKey = 0;
     _wrongWord = 0;
-    _level = level || '';
+    _level = `${level || ''}`;
     _startTime = getTime();
     _endTime = 0;
     draw();
@@ -78,8 +78,8 @@ export const StatisticsController = (() => {
       wrongKey: _wrongKey,
       wrongWord: _wrongWord,
       level: _level,
-      time: timeDelta.toFixed(1),
-      score: (_okKey - _wrongKey - 10 * _wrongWord - timeDelta).toFixed(1),
+      time: round(timeDelta),
+      score: round(_okKey - _wrongKey - 10 * _wrongWord - timeDelta),
     }
   }
 

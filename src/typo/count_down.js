@@ -6,10 +6,10 @@ import {timeoutPromise} from "../utils/modules/utils_module.js";
 export async function contDown(fromNumber, {} = {}) {
   const node = buildElement('b', {style: styleNode(`
   font-size: 256px;
-  position: absolute;
+  position: fixed;
   color: darkgreen;
   left: 50%;
-  top: 50%;
+  top: 30%;
   font-weight: bold;
   `)});
   await insertHtml(node);

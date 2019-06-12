@@ -1,4 +1,4 @@
-import {buildHtml} from "../modules/common.js";
+import {buildHtml, round} from "../modules/common.js";
 import {replaceChildNodes} from "../utils/modules/html.js";
 import {oc, orderByMultipleFactory} from "../utils/modules/utils_module.js";
 import {DOMContentLoadedPromise} from "../utils/modules/dom_ready.js";
@@ -30,6 +30,7 @@ function drawNodes(nodes) {
     ['th', {textContent: 'Level'}],
     ['th', {textContent: 'Score'}],
     ['th', {textContent: 'Time'}],
+    ['th', {textContent: 'keys per second'}],
     ['th', {textContent: 'OK keys'}],
     ['th', {textContent: 'mistakes'}],
     ['th', {textContent: 'OK words'}],
@@ -42,20 +43,21 @@ function update(users) {
     .map(user => ({
       name: user.user_name,
       level: oc(() => user.data.statistics.level, ''),
-      score: oc(() => user.data.statistics.score, ''),
+      score: oc(() => user.data.statistics.score, 0),
       time: oc(() => user.data.statistics.time, ''),
       okKey: oc(() => user.data.statistics.okKey, ''),
       wrongKey: oc(() => user.data.statistics.wrongKey, ''),
       okWord: oc(() => user.data.statistics.okWord, ''),
       wrongWord: oc(() => user.data.statistics.wrongWord, ''),
     }))
-    .sort(orderByMultipleFactory([{name: 'score', asc: false}]))
+    .sort(orderByMultipleFactory([{name: 'level', asc: false}, {name: 'score', asc: false}]))
     .map(data => buildHtml(
     ['tr', {}, [
       ['td', {textContent: data.name}],
       ['td', {textContent: data.level}],
       ['td', {textContent: data.score}],
       ['td', {textContent: data.time}],
+      ['td', {textContent: round(data.okKey / data.time)}],
       ['td', {textContent: data.okKey}],
       ['td', {textContent: data.wrongKey}],
       ['td', {textContent: data.okWord}],

@@ -7,6 +7,7 @@ import {removeNode, setStyle} from "../utils/modules/html.js";
 import {StatisticsController} from "./statistics_controller.js";
 import {DOMContentLoadedPromise} from "../utils/modules/dom_ready.js";
 import {notify} from "../modules/common.js";
+import {timeoutPromise} from "../utils/modules/utils_module.js";
 
 console.log('hello from typo.js');
 
@@ -19,7 +20,9 @@ browser.runtime.onMessage.addListener((data, sender) => {
       // MultiPlayerController.update(users);
       break;
     case 'textToPlay':
-      ScreenController.startGame({userText: data.text});
+      timeoutPromise(100).then(() => {
+        ScreenController.startGame({userText: data.text});
+      });
       break;
 
   }

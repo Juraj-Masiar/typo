@@ -14,3 +14,6 @@ export {buildMessage as buildHtml} from "../utils/modules/html.js";
 
 
 export const notify = (data) => browser.runtime.sendMessage({type: 'notify', data});
+
+export const round = x => Math.round(x * 10) / 10;
+

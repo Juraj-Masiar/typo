@@ -48,7 +48,7 @@ export const InputController = (() => {
   }
 
   function inputChangeHandler(e) {
-    const text = e.target.value;
+    const text = e.target.value.trim();
     _listeners.forEach(fn => fn(text, _self))
   }
 

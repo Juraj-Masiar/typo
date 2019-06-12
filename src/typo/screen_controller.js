@@ -64,6 +64,19 @@ export const ScreenController = (() => {
 
 
   async function startGame({level, userText} = {}) {
+    // loading options:
+    const filterDiacritics = array => array.filter(word => word.match(new RegExp('^[A-z]+$')));
+    const makeLowerCase = array => array.map(w => w.toLowerCase());
+    const makeRandom = array => shuffleArray(array);
+    const noChangedFn = array => array;
+    const modificationsFunctions = [
+      byId('lower_case').checked ? filterDiacritics : noChangedFn,
+      byId('no_diacritics').checked ? makeLowerCase : noChangedFn,
+      byId('shuffle').checked ? makeRandom : noChangedFn,
+    ];
+    // remove from DOM asap
+    _container.remove();
+    // count down - get ready!
     await contDown(3);
     StatisticsController.reset({level: level});
     browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
@@ -81,33 +94,15 @@ export const ScreenController = (() => {
       words = PageTextExtractor.parseWords(text);
     }
     else {
-      // PageTextExtractor.getWords();
-      const filterDiacritics = array => array.filter(word => word.match(new RegExp('^[A-z]+$')));
-      const makeLowerCase = array => array.map(w => w.toLowerCase());
-      const makeRandom = array => shuffleArray(array);
-
-      // const checkboxNode = byId('shuffle');
-      // const isChecked = checkboxNode.checked;
-      // const words = PageTextExtractor.getWords(isChecked);
-
       const originalWords = PageTextExtractor.getWords();
-
-      const noChangedFn = array => array;
-      const modificationsFunctions = [
-        byId('lower_case').checked ? filterDiacritics : noChangedFn,
-        byId('no_diacritics').checked ? makeLowerCase : noChangedFn,
-        byId('shuffle').checked ? makeRandom : noChangedFn,
-      ];
-
       words = modificationsFunctions.reduce((acc, fn) => fn(acc), originalWords);
     }
 
     ListController.drawWords(words);
-    const inProgressPromise = WordsController.startGame(words, {animationDuration: levelDuration});   // todo: move all this logic to screen controller
+    // this will wait on this line until all words fall
+    await WordsController.startGame(words, {animationDuration: levelDuration});
 
-    _container.remove();
-
-    await inProgressPromise;
+    InputController.returnFocus();
     StatisticsController.stopLevel();
     browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
 
