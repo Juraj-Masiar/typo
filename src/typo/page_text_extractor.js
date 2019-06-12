@@ -7,6 +7,7 @@ export const PageTextExtractor = (() => {
     getSentences: getSentences,
     getWords: getWords,
     getSimpleWords: getSimpleWords,
+    parseWords: parseWords,
   };
 
   function getTextBlocks() {
@@ -36,6 +37,14 @@ export const PageTextExtractor = (() => {
     return getWords()
       .filter(word => word.match(new RegExp('^[A-z]+$')))
   }
+
+  function parseWords(text) {
+    return text
+      .split(' ')
+      .map(trim)
+      .filter(notEmpty)
+      .filter(word => word.match(new RegExp('[A-zÀ-ÿ]')));   // keep only words with alphanumeric characters: https://stackoverflow.com/a/26900132/1376947
+  }
 })();
 
 
@@ -45,3 +54,6 @@ function getTextNodes() {
   while((node = walker.nextNode())) nodes.push(node);
   return nodes;
 }
+
+const trim = w => w.trim();
+const notEmpty = w => w;

@@ -11,3 +11,6 @@ export const styleTd = (s = '') => styleNode(`display: table-cell;${s}`);
 export const removeFromArrayPredicate = (arr, fn) => { for(let i = arr.length; i--;) if(fn(arr[i])) arr.splice(i, 1) };
 
 export {buildMessage as buildHtml} from "../utils/modules/html.js";
+
+
+export const notify = (data) => browser.runtime.sendMessage({type: 'notify', data});

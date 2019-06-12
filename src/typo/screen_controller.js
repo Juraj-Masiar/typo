@@ -30,15 +30,18 @@ export const ScreenController = (() => {
       padding: 10px;
       background: lightgreen;
       font-size: 20px; 
-      border: 1px solid gray;
-      box-shadow: 0px 0px 4px 0px black;
+      box-shadow: 0px 0px 5px -2px #181818;
+      border-radius: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
     `)
     }, [
       ['h1', {style: styleBlock('font-size: 42px; margin: 10px 0;'), textContent: 'Welcome to Typo!'}],
-      ['button', {style: getButtonStyle(), textContent: 'Start game', handlers: {onclick: startGame}}],
+      ['button', {style: getButtonStyle(), textContent: 'Start game with current page', handlers: {onclick: startGame}}],
+      ['button', {style: getButtonStyle(), textContent: 'Level 1 - short and simple', handlers: {onclick: () => startGame({level: 1})}}],
+      ['button', {style: getButtonStyle(), textContent: 'Level 2 - long and simple', handlers: {onclick: () => startGame({level: 2})}}],
+      // ['button', {style: getButtonStyle(), textContent: 'Level 3 - long with diacritics', handlers: {onclick: () => startGame({level: 3})}}],
       ['user_info', {style: styleBlock('width: 100%')}, [
         ['h2', {style: styleBlock('font-size: 20px; margin: 10px 0;'), textContent: 'User:'}],
         ['input', {id: 'user_name', style: styleBlock('font-size: 20px; margin: 10px 0; background: white;'), maxlength: '10', value: userName, placeholder: 'enter your name', handlers: {oninput: onUserNameChange}}],
@@ -55,33 +58,46 @@ export const ScreenController = (() => {
   }
 
 
-  function startGame() {
+  async function startGame({level} = {}) {
     InputController.stealFocus();
     console.log('starting game');
-    // PageTextExtractor.getWords();
-    const filterDiacritics = array => array.filter(word => word.match(new RegExp('^[A-z]+$')));
-    const makeLowerCase = array => array.map(w => w.toLowerCase());
-    const makeRandom = array => shuffleArray(array);
+    let words = [];
+    let levelDuration = duration;
 
-    // const checkboxNode = byId('shuffle');
-    // const isChecked = checkboxNode.checked;
-    // const words = PageTextExtractor.getWords(isChecked);
+    if (level) {
+      const {name, text, duration} = await browser.runtime.sendMessage({type: 'fetch_level', level});
+      if (duration) levelDuration = duration;
+      words = PageTextExtractor.parseWords(text);
+    }
+    else {
+      // PageTextExtractor.getWords();
+      const filterDiacritics = array => array.filter(word => word.match(new RegExp('^[A-z]+$')));
+      const makeLowerCase = array => array.map(w => w.toLowerCase());
+      const makeRandom = array => shuffleArray(array);
 
-    const originalWords = PageTextExtractor.getWords();
+      // const checkboxNode = byId('shuffle');
+      // const isChecked = checkboxNode.checked;
+      // const words = PageTextExtractor.getWords(isChecked);
 
-    const noChangedFn = array => array;
-    const modificationsFunctions = [
-      byId('lower_case').checked ? filterDiacritics : noChangedFn,
-      byId('no_diacritics').checked ? makeLowerCase : noChangedFn,
-      byId('shuffle').checked ? makeRandom : noChangedFn,
-    ];
+      const originalWords = PageTextExtractor.getWords();
 
-    const words = modificationsFunctions.reduce((acc, fn) => fn(acc), originalWords);
+      const noChangedFn = array => array;
+      const modificationsFunctions = [
+        byId('lower_case').checked ? filterDiacritics : noChangedFn,
+        byId('no_diacritics').checked ? makeLowerCase : noChangedFn,
+        byId('shuffle').checked ? makeRandom : noChangedFn,
+      ];
+
+      words = modificationsFunctions.reduce((acc, fn) => fn(acc), originalWords);
+    }
 
     ListController.drawWords(words);
-    WordsController.startGame(words, {animationDuration: duration});   // todo: move all this logic to screen controller
+    const inProgressPromise = WordsController.startGame(words, {animationDuration: levelDuration});   // todo: move all this logic to screen controller
 
     _container.remove();
+
+    await inProgressPromise;
+    await insertHtml(_container);
   }
 
   function onUserNameChange(e) {
@@ -91,8 +107,10 @@ export const ScreenController = (() => {
   }
 
   function getButtonStyle(customStyle = '', size = 2) {
-    return `
+    return styleBlock(`
       padding: ${size}px ${size * 2 + 1}px;
+      margin: 4px;
+      font-size: 20px;
       background-color: white;
       text-align: center;
       white-space: nowrap;
@@ -103,7 +121,7 @@ export const ScreenController = (() => {
       user-select: none;
       border: 1px solid #ccc;
       ${customStyle}
-      `;
+      `);
   }
 
   function createTextCheckbox(id, text, value) {

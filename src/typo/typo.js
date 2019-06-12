@@ -6,6 +6,7 @@ import {ListController} from "./list_controller.js";
 import {removeNode, setStyle} from "../utils/modules/html.js";
 import {StatisticsController} from "./statistics_controller.js";
 import {DOMContentLoadedPromise} from "../utils/modules/dom_ready.js";
+import {notify} from "../modules/common.js";
 
 console.log('hello from typo.js');
 

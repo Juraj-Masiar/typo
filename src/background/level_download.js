@@ -7,6 +7,7 @@ export const LevelDownload = (() => {
   };
 
   async function getLevel(levelNumber) {
-    const words = await (await fetch(`${HOST_TYPO}api/level_1`))
+    const level = await (await fetch(`${HOST_TYPO}api/level_${levelNumber}`)).json();
+    return level;
   }
 })();

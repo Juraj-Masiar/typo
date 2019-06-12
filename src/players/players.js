@@ -27,6 +27,8 @@ function drawNodes(nodes) {
 
   replaceChildNodes(_container.querySelector('tbody'), [buildHtml(['tr', {}, [
     ['th', {textContent: 'Name'}],
+    ['th', {textContent: 'Score'}],
+    ['th', {textContent: 'Time'}],
     ['th', {textContent: 'OK words'}],
     ['th', {textContent: 'Mistakes'}],
   ]]), ...nodes]);

@@ -24,11 +24,15 @@
 
   "permissions": [
     "*://pi.fastaddons.com/*",
+    "*://localhost/*",
     "storage",
     "activeTab"
   ],
 
   "web_accessible_resources": [
+    "players/players.html",
+    "players/players.js",
+    "players/players.css",
     "128.png"
   ]
 

@@ -1,7 +1,7 @@
 import {buildElement, replaceChildNodes} from "../utils/modules/html.js";
 import {buildHtml, styleBlock, styleNode, styleTd, styleTr} from "../modules/common.js";
 import {insertHtml} from "./html_appender.js";
-import {oc} from "../utils/modules/utils_module.js";
+import {oc, resource} from "../utils/modules/utils_module.js";
 
 
 export const MultiPlayerController = (() => {
@@ -13,7 +13,7 @@ export const MultiPlayerController = (() => {
   function init() {
 
     const box = buildHtml(['iframe', {
-      src: '/players/players.html',
+      src: resource('/players/players.html'),
       style: styleBlock(`
         position: fixed; 
         top: 90px; 
