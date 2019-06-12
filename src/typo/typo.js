@@ -17,6 +17,11 @@ browser.runtime.onMessage.addListener((data, sender) => {
     case 'websocket':
       // const users = data.data.data;
       // MultiPlayerController.update(users);
+      break;
+    case 'textToPlay':
+      ScreenController.startGame({userText: data.text});
+      break;
+
   }
 });
 

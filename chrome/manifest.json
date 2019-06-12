@@ -23,6 +23,7 @@
   },
 
   "permissions": [
+    "contextMenus",
     "*://pi.fastaddons.com/*",
     "*://localhost/*",
     "storage",

@@ -5,7 +5,7 @@ import {LevelDownload} from "./level_download.js";
 async function RUN_APP() {
   await WS.init();
   if ($IS_DEV) {
-    browser.tabs.create({url: '/test_page.html'});
+    browser.tabs.create({url: '/typo/test_page.html'});
 
   }
 }
@@ -22,8 +22,14 @@ browser.runtime.onMessage.addListener((data, sender) => {
 
 
 // when user clicks the toolbar icon, execute "content script" in current page
-browser.browserAction.onClicked.addListener(async tab => {
-  if ($IS_CHROME) await browser.tabs.executeScript(tab.id, {allFrames: false, file: '/browser-polyfill.min.js', runAt: 'document_end'});
+browser.browserAction.onClicked.addListener(startTypo);
+
+async function startTypo(tab) {
+  if ($IS_CHROME) await browser.tabs.executeScript(tab.id, {
+    allFrames: false,
+    file: '/browser-polyfill.min.js',
+    runAt: 'document_end'
+  });
   await browser.tabs.executeScript(tab.id, {
     allFrames: false,
     file: '/typo/typo.js',
@@ -35,9 +41,17 @@ browser.browserAction.onClicked.addListener(async tab => {
   // }
 
 
+}
+
+browser.contextMenus.create({
+  id: "remove-me",
+  title: 'Play Typo with this text',
+  contexts: ["selection"],
+  onclick: async (info, tab) => {
+    await startTypo(tab);
+    await browser.tabs.sendMessage(tab.id, {type: 'textToPlay', text: info.selectionText});
+  }
 });
-
-
 
 
 RUN_APP();

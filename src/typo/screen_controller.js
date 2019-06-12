@@ -6,6 +6,7 @@ import {PageTextExtractor} from "./page_text_extractor.js";
 import {insertHtml} from "./html_appender.js";
 import {byId} from "../utils/modules/html.js";
 import {StatisticsController} from "./statistics_controller.js";
+import {timeoutPromise} from "../utils/modules/utils_module";
 
 
 export const ScreenController = (() => {
@@ -13,6 +14,7 @@ export const ScreenController = (() => {
   let _container;
 
   return {
+    startGame: startGame,
     initialize: initialize,
     // showWelcome: showWelcome,
     // showEnd: showEnd,
@@ -60,14 +62,18 @@ export const ScreenController = (() => {
   }
 
 
-  async function startGame({level} = {}) {
+  async function startGame({level, userText} = {}) {
     browser.runtime.sendMessage({type: 'statistics', statistics: StatisticsController.getStatistics()});
+    await timeoutPromise(300);
     InputController.stealFocus();
     console.log('starting game');
     let words = [];
     let levelDuration = duration;
 
-    if (level) {
+    if (userText) {
+      words = PageTextExtractor.parseWords(userText);
+    }
+    else if (level) {
       const {name, text, duration} = await browser.runtime.sendMessage({type: 'fetch_level', level});
       if (duration) levelDuration = duration;
       words = PageTextExtractor.parseWords(text);
