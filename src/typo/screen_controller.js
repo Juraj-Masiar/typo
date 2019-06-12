@@ -41,7 +41,7 @@ export const ScreenController = (() => {
       ['button', {style: getButtonStyle(), textContent: 'Start game', handlers: {onclick: startGame}}],
       ['user_info', {style: styleBlock('width: 100%')}, [
         ['h2', {style: styleBlock('font-size: 20px; margin: 10px 0;'), textContent: 'User:'}],
-        ['input', {id: 'user_name', style: styleBlock('font-size: 20px; margin: 10px 0; background: white;'), value: userName, placeholder: 'enter your name', handlers: {oninput: onUserNameChange}}],
+        ['input', {id: 'user_name', style: styleBlock('font-size: 20px; margin: 10px 0; background: white;'), maxlength: '10', value: userName, placeholder: 'enter your name', handlers: {oninput: onUserNameChange}}],
       ]],
       ['options', {style: styleBlock('width: 100%')}, [
         ['h2', {style: styleBlock('font-size: 20px; margin: 10px 0;'), textContent: 'Options:'}],

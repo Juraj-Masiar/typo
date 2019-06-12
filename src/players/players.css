@@ -1,0 +1,14 @@
+
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-size: 12px;
+    font-family: Verdana, Helvetica, sans-serif;
+}
+
+
+th {
+    text-align: left;  
+}
+

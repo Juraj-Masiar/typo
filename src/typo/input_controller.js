@@ -10,9 +10,12 @@ export const InputController = (() => {
   top: 0; 
   left: 0; 
   margin: 10px; 
-  font-size: 20px; 
+  font-size: 32px; 
+  padding: 5px 10px;
   background: white; 
-  border: 1px solid black;
+  box-shadow: 0px 0px 5px -2px #181818;
+  border-radius: 12px;
+  
   `)});
   const _fakeNode = buildElement('input', {style: styleNode('opacity: 0; position: fixed; top: 0; left: 0;')});
   let _nodeToFocus = _node, _stealingFocus = false;

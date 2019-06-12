@@ -34,7 +34,8 @@ export const StatisticsController = (() => {
   padding: 10px;
   font-size: 20px; 
   background: white; 
-  border: 1px solid black;
+  box-shadow: 0px 0px 5px -2px #181818;
+  border-radius: 12px;
   display: flex;
   `)}, [
     buildElement('statistics-names', {style: styleBlock()}, [

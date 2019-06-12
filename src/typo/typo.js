@@ -14,8 +14,8 @@ browser.runtime.onMessage.addListener((data, sender) => {
   switch (data.type) {
     case 'ping': return Promise.resolve('pong');
     case 'websocket':
-      const users = data.data.data;
-      MultiPlayerController.update(users);
+      // const users = data.data.data;
+      // MultiPlayerController.update(users);
   }
 });
 

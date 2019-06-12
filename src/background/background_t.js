@@ -13,7 +13,7 @@ async function RUN_APP() {
 browser.runtime.onMessage.addListener((data, sender) => {
   WS.send('score', data);
   switch (data.type) {
-
+    case 'fetch_level':
   }
 });
 

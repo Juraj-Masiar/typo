@@ -24,10 +24,10 @@ export const ListController = (() => {
       padding: 10px;
       font-size: 20px; 
       background: white; 
-      border: 1px solid black;
       display: flex;
       flex-direction: column;
-      box-shadow: 4px 5px 4px 0px #181818;
+      box-shadow: 0px 0px 5px -2px #181818;
+      border-radius: 12px;
     `)
     });
     insertHtml(box);
