@@ -5,8 +5,8 @@ import {LevelDownload} from "./level_download.js";
 async function RUN_APP() {
   await WS.init();
   if ($IS_DEV) {
-    browser.tabs.create({url: '/typo/test_page.html'});
     browser.tabs.create({url: '/players/players.html'});
+    browser.tabs.create({url: '/typo/test_page.html'});
 
   }
 }
